@@ -1,4 +1,4 @@
-import express from "express"
+import express, {Request, Response} from "express"
 import cors from "cors"
 import multer from 'multer'
 import { getRespsonse } from "./lib/gemini"
@@ -12,10 +12,11 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 const uplaod = multer()
+const port = process.env.PORT;
 
 
 
-app.post("/analyze", async(req, res)=>{
+app.post("/analyze", async(req:Request, res:Response)=>{
     const {text, userData} = req.body;
     try {
         const response = await getRespsonse(text, JSON.stringify(userData))
@@ -35,7 +36,7 @@ app.post("/analyze", async(req, res)=>{
 
 
 
-app.post("/sendEmail", uplaod.single("file"),  async(req, res)=>{
+app.post("/sendEmail", uplaod.single("file"),  async(req:Request, res:Response)=>{
     const {to,subject,  message} = req.body;
     const fileBuffer = req.file?.buffer;
     const fileName = req.file?.originalname;
@@ -70,8 +71,8 @@ app.post("/sendEmail", uplaod.single("file"),  async(req, res)=>{
 
 
 
-app.listen(3000, ()=>{
-    console.log('server running on 3000');
+app.listen(port, ()=>{
+    console.log(`server is running on ${port}`);
     
 })
 
