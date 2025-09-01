@@ -12,7 +12,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 const uplaod = multer()
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 
 
